@@ -20,9 +20,12 @@ class TwigExtension extends AbstractExtension
         ];
     }
 
-    public function getSvg(string $name, $attr = ['class' => 'fill-current w-4 inline-block -mt-1'], string $dir = ''): string
+    /**
+     * @param array<string, string> $attr
+     */
+    public function getSvg(string $name, array $attr = ['class' => 'fill-current w-4 inline-block -mt-1'], string $dir = ''): string
     {
-        $dirs = $dir ?: $this->apps->get()->get('svg_dir');
+        $dirs = '' !== $dir ? $dir : $this->apps->get()->get('svg_dir');
 
         if (! \is_array($dirs)) {
             $dirs = [$dirs];
@@ -37,22 +40,21 @@ class TwigExtension extends AbstractExtension
             $file = null;
         }
 
-        if (! $file) {
+        if (null === $file) {
             throw new Exception('`'.$name.'` (svg) not found.');
         }
 
-        if (! \in_array(mime_content_type($file), ['image/svg+xml', 'image/svg'])) {
+        if (! \in_array(mime_content_type($file), ['image/svg+xml', 'image/svg'], true)
+            || ($svg = file_get_contents($file)) === false) {
             throw new Exception('`'.$name.'` seems not be a valid svg file.');
         }
-
-        $svg = file_get_contents($file);
 
         $svg = self::replaceOnce('<svg ', '<svg '.self::mapAttributes($attr).' ', $svg);
 
         return $svg;
     }
 
-    private static function replaceOnce(string $needle, string $replace, string $haystack)
+    private static function replaceOnce(string $needle, string $replace, string $haystack): string
     {
         $pos = strpos($haystack, $needle);
         if (false !== $pos) {
