@@ -49,7 +49,9 @@ class TwigExtension extends AbstractExtension
             throw new Exception('`'.$name.'` seems not be a valid svg file.');
         }
 
-        return self::replaceOnce('<svg ', '<svg '.self::mapAttributes($attr).' ', $svg);
+        $svg = self::replaceOnce('<svg ', '<svg '.self::mapAttributes($attr).' ', $svg);
+
+        return $svg;
     }
 
     private static function replaceOnce(string $needle, string $replace, string $haystack): string
