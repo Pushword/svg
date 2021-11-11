@@ -44,7 +44,7 @@ class TwigExtension extends AbstractExtension
             throw new Exception('`'.$name.'` (svg) not found.');
         }
 
-        if (! \in_array(mime_content_type($file), ['image/svg+xml', 'image/svg'], true)
+        if (! \in_array(\Safe\mime_content_type($file), ['image/svg+xml', 'image/svg'], true)
             || ($svg = file_get_contents($file)) === false) {
             throw new Exception('`'.$name.'` seems not be a valid svg file.');
         }
