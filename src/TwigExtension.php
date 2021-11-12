@@ -37,6 +37,7 @@ class TwigExtension extends AbstractExtension
             if (file_exists($file)) {
                 break;
             }
+
             $file = null;
         }
 
