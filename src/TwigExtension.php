@@ -13,6 +13,9 @@ class TwigExtension extends AbstractExtension
     use AttributesTrait;
     use RequiredApps;
 
+    /**
+     * @return \Twig\TwigFunction[]
+     */
     public function getFunctions()
     {
         return [
