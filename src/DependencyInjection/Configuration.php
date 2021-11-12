@@ -14,10 +14,7 @@ class Configuration implements ConfigurationInterface
         'svg_dir',
     ];
 
-    /**
-     * @return \Symfony\Component\Config\Definition\Builder\TreeBuilder
-     */
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('svg');
         $treeBuilder->getRootNode()->children()
