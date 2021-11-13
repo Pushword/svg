@@ -35,8 +35,8 @@ class TwigExtension extends AbstractExtension
         }
 
         $file = null;
-        foreach ($dirs as $dir) {
-            $file = $dir.'/'.$name.'.svg';
+        foreach ($dirs as $d) {
+            $file = $d.'/'.$name.'.svg';
             if (file_exists($file)) {
                 break;
             }
