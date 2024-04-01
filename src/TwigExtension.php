@@ -3,7 +3,7 @@
 namespace Pushword\Svg;
 
 use PiedWeb\RenderAttributes\Attribute;
-use Pushword\Core\AutowiringTrait\RequiredApps;
+use Pushword\Core\Component\App\AppPool;
 use Pushword\Svg\FontAwesome5To6 as SvgFontAwesome5To6;
 
 use function Safe\mime_content_type;
@@ -13,7 +13,9 @@ use Twig\TwigFunction;
 
 class TwigExtension extends AbstractExtension
 {
-    use RequiredApps;
+    public function __construct(private readonly AppPool $apps)
+    {
+    }
 
     /**
      * @return TwigFunction[]
@@ -35,7 +37,7 @@ class TwigExtension extends AbstractExtension
             $attr = ['class' => str_contains($attr, 'block') ? $attr : 'fill-current w-4 inline-block -mt-1 '.$attr];
         }
 
-        $dirs = '' !== $dir ? $dir : $this->apps->get()->get('svg_dir');
+        $dirs = '' !== $dir ? $dir : $this->apps->get()->getStringList('svg_dir');
 
         if (! \is_array($dirs)) {
             $dirs = [$dirs];
